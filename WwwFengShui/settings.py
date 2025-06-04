@@ -19,7 +19,7 @@ from django.core.exceptions import ImproperlyConfigured
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Уровень отладки: по умолчанию False, можно управлять через переменные окружения
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG =  'True'
 
 # В продакшене указывайте свои домены, например: ['yourdomain.com']
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
