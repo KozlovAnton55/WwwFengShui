@@ -1,0 +1,264 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+<!-- Наименование страницы -->
+{% block title %}
+<title>{{ title }}</title>
+{% endblock title %}
+
+<!-- Ключ для Яндекс карты местонахождения магазина -->
+{% block mapKey %}
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=34a7bf49-c2f4-4825-a008-9d1eebcff990"
+    type="text/javascript"></script>
+{% endblock mapKey %}
+
+<!-- Навигационное меню -->
+{% block navMenu %}
+<ul>
+        <li>
+            <a href="{% url "main:index" %}#coments">Отзывы</a>
+        </li>
+        <li>
+            <a href="{% url "main:index" %}#about">О нас</a>
+        </li>
+        <li>
+            <a href="{% url "main:index" %}#contacts">Контакты</a>
+        </li>
+</ul>
+{% endblock navMenu %}
+
+<!-- Мобильное меню -->
+{% block mobileNavMenu %}
+<ul>
+        <li>
+            <a href="{% url "main:index" %}#coments">Отзывы</a>
+        </li>
+        <li>
+            <a href="{% url "main:index" %}#about">О нас</a>
+        </li>
+        <li>
+            <a href="{% url "main:index" %}#contacts">Контакты</a>
+        </li>
+        <li>
+            <a href="{% url 'goods:categories' %}">Категории мебели</a>
+        </li>
+        <li>
+            <a href="{% url 'callBack:callBack' %}">Обратный звонок</a>
+        </li>
+        <li>
+            <a href="{% url 'main:qualityAssurance' %}">Гарантии качества</a>
+        </li>
+        <li>
+            <a href="{% url 'ourPromotions:ourPromotions' %}">Наши акции</a>
+        </li>
+        <li>
+            <a href="{% url 'delivery:delivery' %}">Доставка</a>
+        </li>
+        <li>
+            <a href="{% url 'main:privacyPolicy' %}">Политика конфиденциальности</a>
+        </li>
+</ul>
+{% endblock mobileNavMenu %}
+
+<!-- Секция со слайдером -->
+{% block sliderSection %}
+<section id="sliderPresent">
+    <div class="sliderPresentWrapper">
+        <div class="sliderWrapp">
+            <div class="slider"><img src="{% static "images/slider/slider1.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider2.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider3.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider4.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider5.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider6.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider7.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider8.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider9.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider10.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider11.jpg" %}" alt="Презентация"></div>
+        </div>
+        <div class="sliderIndicators">
+        </div>
+    </div>
+</section>
+{% endblock sliderSection %}
+
+<!-- Секция с кнопками на фоне со слайдером -->
+{% block userButtonSlider %}
+<section id="helpUser">
+    <nav class="helpUserWrapper">
+        <ul>
+            <li><a href="{% url 'goods:categories' %}"><img src="{% static "icons/icons8-классифицировать-50.png" %}" alt="Категории">
+                    Категории мебели</a></li>
+            <li><a href="{% url 'callBack:callBack' %}"><img src="{% static "icons/icons8-телефон-звонит-50.png" %}" alt="Оператор"> Заказать
+                    обратный звонок</a></li>
+            <li><a href="{% url 'delivery:delivery' %}"><img src="{% static "icons/icons8-доставка-64.png" %}" alt="Грузовик"> Доставка</a>
+            </li>
+            <li><a href="{% url 'main:qualityAssurance' %}"><img src="{% static "icons/icons8-гарантия-80.png" %}" alt="Медаль"> Гарантии
+                    качества</a></li>
+            <li><a href="{% url 'ourPromotions:ourPromotions' %}"><img src="{% static "icons/icons8-огромная-распродажа-64.png" %}" alt="Корзина"> Наши
+                    акции</a></li>
+            <li><a href="{% url 'main:privacyPolicy' %}"><img src="{% static "icons/icons8-документ-50.png" %}" alt="Документ"> Политика
+                    конфиденциальности</a></li>
+        </ul>
+    </nav>
+</section>
+{% endblock userButtonSlider %}        
+
+<!-- Секция с описанием О нас  -->
+{% block aboutDescription %}
+<section id="about" class="aboutWrapper">
+    <h2>“Feng Shui Мебель” - гармония и уют в вашем доме</h2>
+    <div class="aboutContentWrapper">
+        <div class="aboutContent">
+            <p>
+                “Feng Shui Мебель” – это ваш проводник в мир стильной и функциональной мебели, созданной для
+                гармонизации пространства и улучшения качества жизни. Мы предлагаем широкий ассортимент
+                мебели в
+                различных стилях, от классики до модерна, с особым акцентом на принципы Фэн-шуй.
+                Наша миссия – помочь вам создать дом, в котором царит гармония, комфорт и благополучие. Мы
+                тщательно отбираем поставщиков и предлагаем только качественную мебель, изготовленную из
+                экологически чистых материалов.
+                Уже несколько лет мы успешно работаем на рынке мебели в Обнинске, предлагая нашим клиентам
+                не
+                только широкий выбор продукции, но и высокий уровень сервиса. Наши консультанты с
+                удовольствием
+                помогут вам подобрать мебель, которая идеально впишется в ваш интерьер и будет
+                соответствовать
+                вашим потребностям.
+                Мы находимся по адресу: г. Обнинск, проспект Маркса, ТЦ “Плаза”, 4 этаж, павильон №3.
+                Наши преимущества:
+                Широкий ассортимент мебели для любого интерьера.
+                Высокое качество продукции.
+                Консультации опытных специалистов.
+                Удобное расположение в центре города.
+                Индивидуальный подход к каждому клиенту.
+                Приходите к нам в “Feng Shui Мебель”, и мы поможем вам создать дом вашей мечты!
+            </p>
+            <img src="{% static "images/Content/Rectangle 77.jpg" %}" alt="О нас">
+        </div>
+        <h2>
+            Оптимизируйте покупки мебели с “Feng Shui Мебель”: Зарегистрируйтесь!
+        </h2>
+        <div class="registrationDescriptionWrapper">
+            <p>
+                Мы делаем выбор и покупку мебели максимально удобными. Зарегистрируйтесь на нашем сайте и
+                получите:
+
+                Сохранение избранного: Ваши любимые товары всегда под рукой в личном кабинете.
+                Быстрый заказ: Оформление покупок в несколько кликов благодаря сохраненным данным.
+                Персональные предложения: Узнавайте первыми о новинках, акциях и скидках, подобранных специально
+                для вас.
+                Мгновенный расчет доставки: Удобно узнайте стоимость доставки и подъема, указав параметры.
+                Не упустите выгоду! Зарегистрируйтесь сегодня и начните пользоваться всеми преимуществами “Feng
+                Shui Мебель”!
+
+                Простая регистрация: Заполните форму, пройдите быструю проверку учетной записи и получите
+                приветственное письмо на почту.
+
+                Добро пожаловать в “Feng Shui Мебель”! Оцените новый уровень онлайн-покупок мебели!
+
+                Изменения и улучшения:
+
+                Убрано повторение информации: Убраны дублирующиеся абзацы.
+                Более четкие заголовки: Заголовки пунктов преимуществ сделаны более емкими и понятными.
+                Более лаконичные описания: Сокращены описания преимуществ, убраны лишние слова.
+                Акцент на выгоде: Больше акцент на преимуществах, которые получает пользователь.
+                Призыв к действию: Призыв к регистрации звучит четче и увереннее.
+                Изменена стилистика
+            </p>
+            {% if not user.is_authenticated %}
+                <button class="registerButton">Зарегистрироваться</button>
+            {% endif %}
+        </div>
+    </div>
+    </>
+</section>
+{% endblock aboutDescription %}
+
+<!-- Секция Контакты  -->
+{% block contactsSection %}
+<section id="contacts">
+    <div class="contactsWrapper">
+        <h2>Контактная информация</h2>
+        <div class="contactsContentContainer">
+            <div class="contactsContent">
+                <h3>Наши телефоны</h3>
+                <div class="contacts">
+                    <a href="#"><img src="{% static "icons/icons8-whatsapp-30.png" %}" alt="Whatsapp"></a>
+                    <a href="#"><img src="{% static "icons//icons8-телеграм-32.png" %}" alt="Telegramm"></a><br>
+                    <a href="#"><img src="{% static "icons/icons8-телефон-30.png" %}" alt="Трубка"> 89932328925</a><br>
+                    <a href="#"><img src="{% static "icons/icons8-телефон-30.png" %}" alt=" Трубка"> 88002328925</a>
+                </div>
+                <cite>
+                    Так же не забывайте <br>
+                    вы всегда можете заказать звонок и вам обязательно перезвонят!
+                </cite>
+            </div>
+            <div class="locationWrapper">
+                <div id="map"
+                    style="width: 100%; height: 400px; border-radius: 10px; box-shadow: 0 0 5px gray; padding: 10px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock contactsSection %}
+
+<!-- Секция с отзывами  -->
+{% block comentsSection %}
+<section id="coments">
+    <div class="comentsWrapper">
+        <h2>
+            Отзывы наших клиентов
+        </h2>
+        <div class="comentsMesageWrapper">
+            <div class="comentsContentWrapper">
+                <p>
+                    Ваши отзывы мотивируют нас к развитию и
+                    улучшениюнашего сервиса что в своюочередь
+                    поможит нам угадитьвам как потребителям
+                    нашейвысококачественной продукции.
+                </p>
+                <cite>
+                    Ваши отзывы наш ориентир !
+                </cite>
+            </div>
+            <div class="mesageWrapper">
+
+                {% for review in approved_reviews %}
+                    <div class="coment">
+                        <span class="comentAuthor">{{ review.author.username }}</span>
+                        <div class="comentText">
+                            {{ review.text }}
+                        </div>
+                        <div class="footWrap">
+                            <span class="comentDate">{{ review.created_at|date:"Y-m-d" }}</span>
+                            <div class="starRating">
+                                
+                                {% for i in "x"|rjust:5|slice:review.rating %}
+                                    <img src="{% static "icons/icons8-звезда-48 (1).png" %}" alt="star">
+                                {% endfor %}
+                                
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock comentsSection %}
+
+<!-- Скрипт для приложения main -->
+{% block mainScripts %}
+    <script src="{% static "scripts/map.js" %}"></script>
+    <script src="{% static "scripts/slider.js" %}"></script>
+    <script src="{% static "scripts/authentificatedForm.js" %}"></script>
+{% endblock mainScripts %}
+
+   
+
+
+

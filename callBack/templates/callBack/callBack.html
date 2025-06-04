@@ -1,0 +1,122 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+<!-- Наименование страницы -->
+{% block title %}
+<title>{{ title }}</title>
+{% endblock title %}
+
+<!-- Навигационное меню -->
+{% block navMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+</ul>
+{% endblock navMenu %}
+
+<!-- Мобильное меню -->
+{% block mobileNavMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+    <li>
+        <a href="{% url 'goods:categories' %}">Категории мебели</a>
+    </li>
+    <li>
+        <a href="{% url 'delivery:delivery' %}">Доставка</a>
+    </li>
+    <li>
+        <a href="{% url 'main:privacyPolicy' %}">Политика конфиденциальности</a>
+    </li>
+    <li>
+        <a href="{% url 'main:qualityAssurance' %}">Гарантии качества</a>
+    </li>
+    <li>
+        <a href="{% url 'ourPromotions:ourPromotions' %}">Наши акции</a>
+    </li>
+</ul>
+{% endblock mobileNavMenu %}
+
+<!-- Секция с формой для заказа звонка сообщением об отправки формы -->
+{% block callBackSection %}
+<section id="callbackPage">
+    <div class="callbackWrapper">
+        <div class="callbackDescription">
+            <h2>Закажите обратный звонок!</h2>
+            <p>
+                Не нашли нужную информацию на сайте или хотите обсудить детали заказа?
+                Оставьте заявку, и наш менеджер перезвонит вам в течение 15 минут! Мы поможем вам с выбором мебели,
+                ответим на любые вопросы и предоставим подробную консультацию.
+            </p>
+            <p>
+                Мы ценим каждого клиента и стремимся сделать процесс покупки максимально комфортным.
+                Наши менеджеры обладают глубокими знаниями о нашей продукции и готовы помочь вам найти идеальное решение для вашего дома.
+            </p>
+            <p>
+                Закажите обратный звонок прямо сейчас, и мы:
+            </p>
+            <ul>
+                <li>Подробно проконсультируем вас по вопросам ассортимента и характеристикам мебели.</li>
+                <li>Поможем подобрать мебель, идеально соответствующую вашему стилю и бюджету.</li>
+                <li>Предоставим информацию о способах оплаты и условиях доставки.</li>
+            </ul>
+        </div>
+        <div class="callbackFormWrapper">
+            <h3>Заполните форму</h3>
+            <form id="callbackForm" method="POST">
+                {% csrf_token %}
+                <div class="callbackFormRow">
+                    <label for="name">Ваше имя:</label><br>
+                    <input type="text" id="name" name="name" required>
+                </div>
+        
+                <div class="callbackFormRow">
+                    <label for="phone">Номер телефона:</label><br>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+        
+                <div class="callbackFormRow">
+                    <label for="message">Комментарий (необязательно):</label><br>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+        
+                <button type="submit">Заказать звонок</button>
+            </form>
+            <!-- Модальное окно сообщения об успешной отправки заявки -->
+            <div id="successModal" class="modal">
+                <div class="modal-content">
+                    <h2>Спасибо за обращение!</h2>
+                    <p>Ваша заявка отправлена. В кратчайшие сроки с вами свяжутся.</p>
+                    <button id="modal-close">Ожидаю</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock callBackSection %}
+
+<!-- Скрипт для приложения callback -->
+{% block callBackScripts %}
+    <script src="{% static "scripts/callback.js" %}"></script>
+    <script src="{% static "scripts/authentificatedForm.js" %}"></script>
+{% endblock callBackScripts %}

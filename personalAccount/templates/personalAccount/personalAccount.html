@@ -1,0 +1,388 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+<!-- Наименование страницы -->
+{% block title %}
+<title>{{ title }}</title>
+{% endblock title %}
+
+<!-- Навигационное меню -->
+{% block navMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+</ul>
+{% endblock navMenu %}
+
+<!-- Мобильное меню -->
+{% block mobileNavMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+    <li>
+        <a href="{% url 'delivery:delivery' %}">Доставка</a>
+    </li>
+    <li>
+        <a href="{% url 'main:privacyPolicy' %}">Политика конфиденциальности</a>
+    </li>
+    <li>
+        <a href="{% url 'main:qualityAssurance' %}">Гарантии качества</a>
+    </li>
+    <li>
+        <a href="{% url 'goods:categories' %}">Категории мебели</a>
+    </li>
+    <li>
+        <a href="{% url 'ourPromotions:ourPromotions' %}">Наши акции</a>
+    </li>
+    <li>
+        <a href="{% url 'callBack:callBack' %}">Обратный звонок</a>
+    </li>
+</ul>
+{% endblock mobileNavMenu %}
+
+<!-- Секция с инструментами пользователя личного кабинета Изменить личные данные, Корзина товаров, Избранные товары, Профили доставки -->
+{% block personalAccountSection %}
+<section id="personalAccount" data-delivery-city="{{ delivery_profile.city }}" data-delivery-street="{{ delivery_profile.street }}" data-delivery-house="{{ delivery_profile.house }}" data-delivery-entrance="{{ delivery_profile.entrance }}" data-delivery-floor="{{ delivery_profile.floor }}">
+    <div class="personalAccountWrapper">
+        <h2>Добро пожаловать в личный кабинет, {{ user.username }}</h2>
+        <div class="gridContainer">
+            <div class="personalData">
+                <div class="headerPersonalData">
+                    <img src="{% static "icons/icons8-редактировать-мужчину-пользователя-80.png" %}" alt="icon">
+                    <h3>Персональные данные</h3>
+                </div>
+                <ul>
+                    <li>Никнейм: <span id="nickname">{{ user.username }}</span></li>
+                    <li>Имя, Фамилия: <span id="nameSurname">{{ user.first_name }} {{ user.last_name|default:"Не указаны" }}</span></li>
+                    <li>Email: <span id="email">{{ user.email|default:"Не указан" }}</span></li>
+                    <li>Телефон: <span id="phone">{{ phone|default:"Не указан" }}</span></li>
+                    <li>Пароль: <span id="password">********</span></li>
+                </ul>
+                <div class="buttonPersonalData">
+                    <a href="#" class="changeTheData" id="showPersonalData">Изменить данные</a>
+                </div>
+            </div>
+            <div class="favorites">
+                <div class="headerFavorites">
+                    <img src="{% static "icons/icons8-избранные-товары-80.png" %}" alt="icon">
+                    <h3>Избранные</h3>
+                </div>
+                <div class="flexContainerCount">
+                    <p>Увас в избранных </p>
+                    <span id="favoritesCount" class="count">0</span>
+                    <p> ед.</p>
+                </div>
+                <div class="favoritesButton">
+                    <a href="#" class="viewAll" id="showFavorites">Посмотреть все</a>
+                </div>
+            </div>
+            <div class="basketOfGoods">
+                <div class="headerBasketOfGoods">
+                    <img src="{% static "icons/icons8-полная-корзина-80.png" %}" alt="icon">
+                    <h3>Корзина товаров </h3>
+                </div>
+                <div class="flexContainerBasketOfGoods">
+                    <p>У вас в корзине</p>
+                    <span id="BasketOfGoodsCount" class="count">0</span>
+                    <p> ед.</p>
+                </div>
+                <div class="basketOfGoodsButton">
+                    <a href="#" class="goToTheHoppingCart">Перейти в корзину</a>
+                </div>
+            </div>
+            <div class="deliveryProfiles">
+                <div class="headerDeliveryProfiles">
+                    <img src="{% static "icons/icons8-доставка-80.png" %}" alt="icon">
+                    <h3>Профили доставки</h3>
+                </div>
+                <ul>
+                    <li>Город: <span id="siti">{{ delivery_profile.city }}</span></li>
+                    <li>Улица: <span id="street">{{ delivery_profile.street|default:"Не указана" }}</span></li>
+                    <li>Дом: <span id="house">{{ delivery_profile.house|default:"Не указан" }}</span></li>
+                    <li>Подъезд: <span id="entrance">{{ delivery_profile.entrance|default:"Не указан" }}</span></li>
+                    <li>Этаж: <span id="floor">{{ delivery_profile.floor|default:"Не указан" }}</span></li>
+                    <li>Стоимость доставки: <span id="delivery_cost">{{ delivery_profile.delivery_cost }}</span></li>
+                </ul>
+                <div class="deliveryProfilesButton">
+                    <a href="#" class="toChange">Изменить</a>
+                </div>
+            </div>
+            <div class="currentOrders">   
+                <div class="headerCurrentOrders">
+                    <img src="{% static "icons/icons8-чек-80.png" %}" alt="icon">
+                    <h3>Текущие заказы</h3>
+                </div>
+                <div id="currentOrdersList" class="ordersWrap">
+                    <!-- Сюда будут добавляться заказы которые сделанны через сайт -->
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const personalAccountSection = document.querySelector('#personalAccount');
+        const city = '{{ delivery_profile.city }}';
+        const deliveryCostSpan = document.getElementById('delivery_cost');
+        const editCity = document.querySelector('#editCity');
+        const floorInput = document.querySelector('#editFloor');
+        const needsElevatorInput = document.querySelector('#editNeedsElevator');
+        const hasLiftInput = document.querySelector('#editHasLift'); //  Получаем элемент "Наличие лифта"
+
+        const defaultFloor = {{ delivery_profile.floor|default:1 }};
+        const defaultNeedsElevator = {{ delivery_profile.needs_elevator|lower }};
+        const defaultHasLift = {{ delivery_profile.has_lift|lower }}; // Получаем значение has_lift
+
+        // Функция для включения/выключения поля "Наличие лифта"
+        function updateHasLiftVisibility() {
+            if (!hasLiftInput) {
+                return;
+            }
+            const hasLiftLabel = hasLiftInput.closest('label');
+            if (hasLiftLabel) {
+                if (needsElevatorInput.checked) {
+                    hasLiftInput.disabled = false;
+                    hasLiftLabel.style.color = '';  // Восстанавливаем цвет лейбла
+                } else {
+                    hasLiftInput.disabled = true;
+                    hasLiftInput.checked = false; //  Сбрасываем значение
+                    hasLiftLabel.style.color = 'gray'; //  Делаем лейбл серым
+                }
+            }
+        }
+
+        // Вызываем функцию при загрузке страницы, чтобы установить начальное состояние
+        updateHasLiftVisibility();
+
+        // Добавляем обработчик события для "Нужен ли подъем"
+        needsElevatorInput.addEventListener('change', updateHasLiftVisibility);
+
+        function fetchAndDisplayDeliveryCost(city, floor, needsElevator, hasLift) {
+            //console.log("fetchAndDisplayDeliveryCost called with:", city, floor, needsElevator, hasLift); // Удалено
+            if (!city) {
+                deliveryCostSpan.textContent = 'Город доставки не указан.';
+                return;
+            }
+
+            fetch('/delivery/calculate_delivery_cost/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `city=${encodeURIComponent(city)}&floor=${encodeURIComponent(floor)}&needs_elevator=${needsElevator}&has_lift=${hasLift}` // Передаем has_lift
+            })
+            .then(response => response.json())
+            .then(data => {
+                //console.log("Response from server:", data); // Удалено
+                if (data.delivery_cost !== undefined) {
+                    if (typeof data.delivery_cost === 'number') {
+                        deliveryCostSpan.textContent = data.delivery_cost.toFixed(2) + ' руб.';
+                    } else {
+                        deliveryCostSpan.textContent = data.delivery_cost; // Отображаем строку "Не доставляется"
+                    }
+
+                } else {
+                    deliveryCostSpan.textContent = 'Ошибка расчета';
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при расчете стоимости доставки:', error);
+                deliveryCostSpan.textContent = 'Ошибка расчета';
+            });
+        }
+
+        //  Инициализируем значения
+        let initialFloor = floorInput ? parseInt(floorInput.value, 10) : defaultFloor; // Получаем значение этажа из поля ввода, или из данных профиля
+        let initialNeedsElevator = needsElevatorInput ? needsElevatorInput.checked : defaultNeedsElevator; // Получаем значение лифта из поля ввода, или из данных профиля
+        let initialHasLift = hasLiftInput ? hasLiftInput.checked : defaultHasLift; //  Получаем значение наличия лифта
+        //console.log("Initial values:", "city:", city, "floor:", initialFloor, "needsElevator:", initialNeedsElevator, "hasLift:", initialHasLift); // Удалено
+
+        editCity.addEventListener('change', function() {
+            fetchAndDisplayDeliveryCost(city, initialFloor, initialNeedsElevator, initialHasLift);
+        });
+        // Добавляем обработчики событий
+        floorInput.addEventListener('change', function() {
+            initialFloor = this.value;
+            fetchAndDisplayDeliveryCost(city, initialFloor, needsElevatorInput.checked, hasLiftInput.checked);
+        });
+
+        needsElevatorInput.addEventListener('change', function() {
+            initialNeedsElevator = this.checked;
+            fetchAndDisplayDeliveryCost(city, initialFloor, initialNeedsElevator, hasLiftInput.checked);
+        });
+        hasLiftInput.addEventListener('change', function() { // Обработчик для  hasLiftInput
+            initialHasLift = this.checked;
+            //console.log("hasLift changed to:", initialHasLift); // Удалено
+            fetchAndDisplayDeliveryCost(city, initialFloor, initialNeedsElevator, initialHasLift);
+        });
+        // Вызываем функцию при загрузке страницы
+        fetchAndDisplayDeliveryCost(city, initialFloor, initialNeedsElevator, initialHasLift);
+    });
+</script>
+</section>
+{% endblock personalAccountSection %}
+
+<!-- Секция где пользователь может оставить отзыв который будет добавлен в ленту на странице 'index.html' -->
+{% block leaveAReviewSection %}
+<!-- Сообщение об успешной отправке комментария на страницу 'index.html' -->
+{% if messages %}
+    <div id="reviewMessageContainer" class="review-message-container">
+        <div class="review-message-content">
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <button id="closeReviewMessage">ОК</button>
+        </div>
+    </div>
+{% endif %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButton = document.getElementById('closeReviewMessage');
+        const messageContainer = document.getElementById('reviewMessageContainer');
+
+        if (closeButton && messageContainer) {
+            closeButton.addEventListener('click', function() {
+                messageContainer.style.display = 'none'; // Скрываем контейнер
+            });
+        }
+    });
+    </script>
+<section id="leaveAReview">
+    <div class="leaveAReviewWrapper">
+        <h2>Оставить отзыв</h2>
+        <p>Поделитесь своим мнением о нашем магазине!</p>
+        <form id="reviewForm" action="{% url 'reviews:submit_review' %}" method="post">
+            {% csrf_token %}
+            <div class="formGroup">
+                <label for="reviewText">Ваш отзыв:</label>
+                <textarea id="reviewText" style="font-size: 20px;" name="reviewText" rows="5" required></textarea>
+            </div>
+            <div class="starGroup">
+                <label>Оцените нашу работу:</label>
+                <div class="starRating">
+                    <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">&#9733;</label>
+                </div>
+                <button type="submit" class="submitReview">Отправить отзыв</button>
+            </div>
+        </form>
+        <p class="moderationNote">Ваш отзыв будет опубликован после проверки модератором.</p>
+    </div>
+</section>
+{% endblock leaveAReviewSection %}
+
+<!--Модальное окно Избранных товаров-->
+{% block favoritesModal %}
+<div id="favoritesModal" class="modal">
+    <div class="modal-content">
+        <div class="headerfavorit">
+            <img src= "{% static "icons/icons8-избранные-товары-80.png" %}" alt="icon">
+            <span class="close">&times;</span>
+            <h3>Избранные товары</h3>
+        </div>
+        <!-- Шаблон перемещен ЗА ПРЕДЕЛЫ wishlist-items -->
+        <div id="wishlist-item-template" class="wishlist-item wishlist-item-hidden">
+            <img src="" alt="Product Image">
+            <h3><a href="#"></a></h3>
+            <p>Цена: <span class="price"></span></p>
+            <div class="templateButton">
+                <button class="add-to-cart-from-wishlist" data-product-id="">В корзину</button>
+                <button class="remove-from-wishlist" data-product-id="">Удалить</button>
+            </div>
+        </div>
+        <div id="wishlist-items">
+            <!-- Здесь будут товары из избранного -->
+        </div>
+    </div>
+</div>
+{% endblock favoritesModal %}
+
+<!-- Модальное окно для редактирования данных пользователя -->
+{% block editPersonalDataModal %}
+<div id="editPersonalDataModal" class="modalPersonalData" style="display: none;">
+    <div class="modal-content-personal-data">
+        <span class="close">&times;</span>
+        <h3>Редактировать свои данные</h3>
+        <form id="editPersonalDataForm" method="post" action="{% url 'personalAccount:update_profile' %}">
+            {% csrf_token %}
+            <label for="editFirstName">Имя:</label>
+            <input type="text" id="editFirstName" name="first_name" value="{{ user.first_name }}" required><br><br>
+        
+            <label for="editLastName">Фамилия:</label>
+            <input type="text" id="editLastName" name="last_name" value="{{ user.last_name }}" required><br><br>
+        
+            <label for="editPhone">Телефон:</label>
+            <input type="tel" id="editPhone" name="phone" value="{{ phone }}" required><br><br>
+        
+            <label for="editPassword">Пароль:</label>
+            <input type="password" id="editPassword" name="password" placeholder="Введите новый пароль" required><br><br>
+        
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    </div>
+</div>
+{% endblock editPersonalDataModal %}
+
+<!-- Модальное окно для редактирования профиля доставки -->
+{% block editDeliveryProfileModal %}
+<div id="editDeliveryProfileModal" class="modalDeliveryProfile" style="display: none;">
+    <div class="modal-content-delivery-profile">
+        <span class="close">&times;</span>
+        <h3>Редактировать профиль доставки</h3>
+        <form id="editDeliveryProfileForm" method="post" action="{% url 'personalAccount:update_delivery_profile' %}">
+            {% csrf_token %}
+
+            <label for="editCity">Город:</label>
+            <input type="text" id="editCity" name="city" value="{{ delivery_profile.city }}" required><br><br>
+
+            <label for="editStreet">Улица:</label>
+            <input type="text" id="editStreet" name="street" value="{{ delivery_profile.street }}"><br><br>
+
+            <label for="editHouse">Дом:</label>
+            <input type="text" id="editHouse" name="house" value="{{ delivery_profile.house }}"><br><br>
+
+            <label for="editEntrance">Подъезд:</label>
+            <input type="text" id="editEntrance" name="entrance" value="{{ delivery_profile.entrance }}"><br><br>
+
+            <label for="editFloor">Этаж:</label>
+            <input type="number" id="editFloor" name="floor" value="{{ delivery_profile.floor|default:'' }}" min="1"><br><br>
+
+            <label for="editNeedsElevator">Нужен ли подъем:</label>
+            <input type="checkbox" id="editNeedsElevator" name="needs_elevator" {% if delivery_profile.needs_elevator %}checked{% endif %}><br><br>
+
+            <label for="editHasLift">Наличие лифта:</label> 
+            <input type="checkbox" id="editHasLift" name="has_lift" {% if delivery_profile.has_lift %}checked{% endif %}><br><br>
+
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    </div>
+</div>
+{% endblock editDeliveryProfileModal %}
+

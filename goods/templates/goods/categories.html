@@ -1,0 +1,124 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+<!-- Название страницы -->
+{% block title %}
+<title>{{ title }}</title>
+{% endblock title %}
+
+<!-- Навигационное меню меню -->
+{% block navMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+</ul>
+{% endblock navMenu %}
+
+<!-- Мобильное меню -->
+{% block mobileNavMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+    <li>
+        <a href="{% url 'delivery:delivery' %}">Доставка</a>
+    </li>
+    <li>
+        <a href="{% url 'main:privacyPolicy' %}">Политика конфиденциальности</a>
+    </li>
+    <li>
+        <a href="{% url 'main:qualityAssurance' %}">Гарантии качества</a>
+    </li>
+    <li>
+        <a href="{% url 'ourPromotions:ourPromotions' %}">Наши акции</a>
+    </li>
+    <li>
+        <a href="{% url 'callBack:callBack' %}">Обратный звонок</a>
+    </li>
+</ul>
+{% endblock mobileNavMenu %}
+
+<!-- Секция со слайдером -->
+{% block sliderSection %}
+<section id="sliderPresent">
+    <div class="sliderPresentWrapper">
+        <div class="sliderWrapp">
+            <div class="slider"><img src="{% static "images/slider/slider1.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider2.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider3.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider4.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider5.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider6.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider7.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider8.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider9.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider10.jpg" %}" alt="Презентация"></div>
+            <div class="slider"><img src="{% static "images/slider/slider11.jpg" %}" alt="Презентация"></div>
+        </div>
+        <div class="sliderIndicators">
+        </div>
+    </div>
+</section>
+{% endblock sliderSection %}
+
+<!-- Секция с кнопками на фоне со слайдером -->
+{% block userButtonSlider %}
+<section id="helpUser">
+    <nav class="helpUserWrapper">
+        <ul>
+            <li><a href="{% url 'callBack:callBack' %}">Обратный звонок<img src="{% static "icons/icons8-телефон-звонит-50.png" %}" alt="Оператор"></a></li>
+            <li><a href="{% url 'delivery:delivery' %}">Доставка<img src="{% static "icons/icons8-доставка-64.png" %}" alt="Грузовик"></a></li>
+            <li><a href="{% url 'main:qualityAssurance' %}">Гарантии качества<img src="{% static "icons/icons8-гарантия-80.png" %}" alt="Медаль"></a></li>
+            <li><a href="{% url 'ourPromotions:ourPromotions' %}">Наши акции<img src="{% static "icons/icons8-огромная-распродажа-64.png" %}" alt="Корзина"></a></li>
+            <li><a href="{% url 'main:privacyPolicy' %}">Политика конфиденциальности<img src="{% static "icons/icons8-документ-50.png" %}" alt="Документ"></a></li>
+        </ul>
+    </nav>
+</section>
+{% endblock userButtonSlider %}   
+
+<!-- Секция с категориями товаров -->
+{% block categoriesSection %}
+<section id="categoriesPage">
+    <div class="categoriesWrapper">
+        <h2>Категории мебели</h2>
+        <div class="categoryGrid">
+            {% for category in categories %}
+                <a href="{% url 'goods:category' category_slug=category.slug %}" class="categoryCard">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                    {% else %}
+                        <img src="{% static "not Found image/maske_kein_foto_mb2.jpg" %}" alt="Изображение по умолчанию">
+                    {% endif %}
+                    <div class="categoryTitle">{{ category.name }}</div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock categoriesSection %}
+
+<!-- Скрипт для приложения category -->
+{% block goodsScripts %}
+    <script src="{% static "scripts/goods.js" %}"></script>
+    <script src="{% static "scripts/authentificatedForm.js" %}"></script>
+{% endblock goodsScripts %}
+    

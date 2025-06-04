@@ -1,0 +1,379 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %} 
+    <!-- Название страницы -->
+    {% endblock title %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "favicon/favicon_io/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon/favicon_io/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon/favicon_io/favicon-16x16.png" %}">
+    <link rel="manifest" href="{% static "favicon/favicon_io/site.webmanifest" %}">
+    <link rel="icon" href="{% static "favicon/favicon_io/favicon.ico" %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static "style/style.css" %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    {% block mapKey %}
+    
+    {% endblock mapKey %}
+    
+  </head>
+
+    <body data-cart-data-url="{% url 'cartWishlistOrders:get_cart_data' %}"
+      data-wishlist-data-url="{% url 'cartWishlistOrders:get_wishlist_data' %}"
+      data-current-orders-url="{% url 'cartWishlistOrders:get_current_orders' %}"
+      data-process-order-url="{% url 'cartWishlistOrders:process_order' %}">
+
+    <header>
+        <div class="headerWrapper">
+            <div class="logoWrapper">
+                <a href="#">
+                    <h1>Feng Shui</h1>
+                    <cite>У нас мебель на любой вкус !</cite>
+                </a>
+            </div>
+            <div class="burgerMenu">
+                <div class="burgerIcon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="contactsNavWrapper">
+                <div class="contactsHeaderWrapper">
+                    <div class="iconSocialHeader">
+                        <a href="#"><img src="{% static "icons/icons8-whatsapp-30.png" %}" alt="Whatsapp"></a>
+                        <a href="#"><img src="{% static "icons/icons8-телеграм-32.png" %}" alt="Telegramm"></a>
+                        <a href="#"><img src="{% static "icons/icons8-телефон-30.png" %}" alt="Трубка"></a>
+                    </div>
+                    <p>Номер для связи: <br> 89932328925</p>
+                </div>
+                <nav class="navMenu">
+                    {% block navMenu %}
+                    <!-- Навигационное меню -->
+                    {% endblock navMenu %}
+                </nav>
+            </div>
+            <div class="managementWrapper">
+                <div class="basketWrapper">
+                    <a href="#"><img src="{% static "icons/icons8-корзина-64.png" %}" alt="Корзина"></a>
+                </div>
+                <form action="{% url 'search:search_products' %}" method="GET" class="searchForm" onsubmit="return clearSearch();">
+                    <input type="text" id="searchInput" name="q" placeholder="Поиск товаров по категории">
+                    <button type="submit" class="searchButton"><img src="{% static "icons/icons8-поиск-24.png" %}" alt="Лупа"></button>  
+                </form>
+                {% block userButton %}
+                    <div class="userButton">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'users:logout' %}"><button class="logoutButton">Выйти</button></a>
+                        <a href="{% url 'personalAccount:personal' %}"><button class="personalAccountButton">Личный кабинет</button></a>
+                        <div class="loggedInUser" style="display:none;"></div>  
+                    {% else %}
+                        <button class="loginButton">Войти</button>
+                        <button class="registerButton">Зарегистрироваться</button>
+                    {% endif %}
+                    </div>
+                {% endblock userButton %}
+            </div>
+        </div>
+        <!-- Мобильное меню (добавлено) -->
+        <div class="mobileMenu">
+            <div class="closeButton">
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="mobileNav">
+                {% block mobileNavMenu %}
+                 <!-- Мобильное меню -->
+                {% endblock mobileNavMenu %}
+            </nav>
+        </div>
+        <!-- Формы авторизации и регистрации (Видны только не авторизованным пользователям) -->
+        {% if not user.is_authenticated %} 
+            <!-- Форма авторизации -->
+            {% block modalAuthorisation %}
+                <div id="authorisationModal" class="modal">
+                <div class="authorisationModalContent">
+                    <span class="close">&times;</span>
+                    <h3>Авторизация</h3>
+                    <form id="authorisationModalForm">
+                        {% csrf_token %}
+                        <label for="authName">Имя:</label>
+                        <input type="text" id="authName" name="authName" required><br><br>
+
+                        <label for="authPassword">Пароль:</label>
+                        <input type="password" id="authPassword" name="authPassword" required><br><br>
+
+                        <button type="submit">Войти</button>
+                        <button type="reset">Отчистить</button>
+                    </form>
+                </div>
+                </div>
+            {% endblock modalAuthorisation %}
+            <!-- Форма регистрации -->       
+            {% block modalRegistration %}
+                <div id="registrationModal" class="modal">
+                <div class="registrationModalContent">
+                    <span class="close">&times;</span>
+                    <h3>Регистрация</h3>
+                    <form id="registrationModalForm">
+                        {% csrf_token %}
+                        <label for="registerFirstName">Имя:</label>
+                        <input type="text" id="registerFirstName" name="registerFirstName" required><br><br>
+            
+                        <label for="registerLastName">Фамилия:</label>
+                        <input type="text" id="registerLastName" name="registerLastName" required><br><br>
+            
+                        <label for="registerPhone">Телефон:</label>
+                        <input type="tel" id="registerPhone" name="registerPhone" required><br><br>
+            
+                        <label for="registerEmail">Email:</label>
+                        <input type="email" id="registerEmail" name="registerEmail" required><br><br>
+                        
+                        <label for="registerNickname">Nickname:</label>
+                        <input type="text" id="registerNickname" name="registerNickname" required><br><br>
+            
+                        <label for="registerPassword">Пароль:</label>
+                        <input type="password" id="registerPassword" name="registerPassword" required><br><br>
+                         
+                        <label for="registerPassword2">Подтвердите Пароль:</label>
+                        <input type="password" id="registerPassword2" name="registerPassword2" required><br><br>
+            
+                        <button type="submit">Зарегистрироваться</button>
+                        <button type="reset">Отчистить</button>
+                    </form>
+                </div>
+                </div>
+            {% endblock modalRegistration %}
+        {% endif %}
+    </header>
+    
+
+    <main>
+
+        <!-- Страница "index.html" -->
+
+        {% block sliderSection %}
+        <!-- Секция со слайдером -->
+        {% endblock sliderSection %}
+        {% block userButtonSlider %}
+        <!-- Секция с кнопками на фоне со слайдером -->
+        {% endblock userButtonSlider %}
+        {% block aboutDescription %}
+        <!-- Секция О нас  -->
+        {% endblock aboutDescription %}
+        {% block contactsSection %}
+        <!-- Секция с Контактами и картой нахождения магазина -->
+        {% endblock contactsSection %}
+        {% block comentsSection %}
+        <!-- Секция с Отзывами -->
+        {% endblock comentsSection %}
+
+        <!-- Страница "privacyPolicy.html" -->
+
+        {% block privacyPolicySection %}
+        <!-- Секция с политикой конфиденциальности -->
+        {% endblock privacyPolicySection %}
+
+        <!-- Страница "qualityAssurance.html" -->
+
+        {% block qualityAssuranceSection %}
+        <!-- Секция с гарантиями качества -->
+        {% endblock qualityAssuranceSection %}
+
+        <!-- Страница "callBack.html" -->
+
+        {% block callBackSection %}
+        <!-- Секция с формой для заказа звонка -->
+        {% endblock callBackSection %}
+
+        <!-- Страница "categories.html" -->
+
+        {% block categoriesSection %}
+        <!-- Секция с категориями товаров -->
+        {% endblock categoriesSection %}
+
+        <!-- Страница "category.html"-->
+
+        {% block categoryPageSection %}
+        <!-- Секция с выбранной категорией товаров-->
+        {% endblock categoryPageSection %}
+
+        <!-- Страница "delivery.html"-->
+
+        {% block deliveryPageSection %}
+        <!-- Секция с калькулятором стоимости доставки и Яндекс картой "Границы доставки""-->
+        {% endblock deliveryPageSection %}
+
+        <!-- Страница "ourPromotions.html"-->
+
+        {% block ourPromotionsSection %}
+        <!-- Секция с товарами которые распродаются со скидкой -->
+        {% endblock ourPromotionsSection %}
+
+        <!-- Страница "personalAccount.html"-->
+
+        {% block personalAccountSection %}
+        <!-- Секция с инструментами пользователя личного кабинета
+        Изменить личные данные, Корзина товаров, Избранные товары, Профили доставки 
+        -->
+        {% endblock personalAccountSection %}
+        {% block leaveAReviewSection %}
+        <!-- Секция где пользователь может оставить отзыв который будет добавлен в ленту
+        на странице 'index.html' 
+        -->
+        {% endblock leaveAReviewSection %}
+        {% block personalDataSection %}
+        <!-- Секция для редактирования личных данных пользователя  -->
+        {% endblock personalDataSection %}
+        {% block deliveryProfilesSect %}
+        <!-- Секция для редактирования профиля для доставки  -->
+        {% endblock deliveryProfilesSect %}
+
+        <footer>
+            <div class="footerWrapper">
+                <a href="#">Copiright &copy; 2025.Anthon Kozlov</a>
+                <div class="footerLogoWrapper">
+                    <div class="logoFooter">
+                        <a href="#">
+                            <h1>Feng Shui</h1>
+                        </a>
+                        <cite>
+                            У нас мебель на любой вкус !
+                        </cite>
+                    </div>
+                    <div class="socialIconsFooterWrapper">
+                        <a href="#"><img src="{% static "icons/icons8-whatsapp-30.png" %}" alt="Whatsapp"></a>
+                        <a href="#"><img src="{% static "icons/icons8-телеграм-32.png" %}" alt="Telegramm"></a>
+                    </div>
+                </div>
+                <a href="#"><img src="{% static "icons/icons8-эл.-адрес-30.png" %}" alt="email"> Realkom55a@Yandex.ru</a>
+            </div>
+        </footer>
+
+    </main>
+   
+
+    <!-- Модальное окно Корзина товаров -->
+    <div id="basketOfGoods" class="basketModal">
+        <div class="basketModalContent">
+        <span class="basketCloseButton">&times;</span>
+        <h3>Корзина товаров</h3>  
+        <div class="countProductWrapper">
+            <h4>Товары в корзине:</h4>
+            <div id="cartItemsContainer" class="cart-items-container">
+                <!-- Сюда будут добавляться карточки товаров -->
+                <p id="emptyCartMessage">Корзина пуста</p>
+            </div>
+        </div>
+        <div class="totalAmountWrapper">
+            <h4>Стоимость товаров в корзине:</h4>
+            <div class="totalAmount">
+                <p>Общая стоимость товаров:</p>
+                <span id="totalPrice">0</span><span> руб.</span> 
+            </div>
+        </div>
+        <button id="checkoutButton" class="checkout-button">Оформить заказ</button>
+        </div>
+    </div>
+
+    <!-- Модальное окно оформления заказа -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Оформление заказа</h3>
+            <form id="checkoutForm">
+                <label for="checkoutMessage">Адрес доставки:</label>
+                <textarea id="checkoutMessage" rows="5" readonly name="checkoutMessage"></textarea>
+                <button type="submit">Подтвердить заказ</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Сообщения для Избранных и Корзины товаров -->
+    <div id="modalContainer" style="display: none;">
+        <div id="customModal">
+            <div id="modalContent"></div>
+            <div id="modalButtons">
+                <button id="modalYes">Да</button>
+                <button id="modalNo">Нет</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно сообщения Такой категории нет в нашем магазине -->
+    <div id="messageModal" class="modal" style="display: {% if message %}block{% else %}none{% endif %};">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('messageModal').style.display='none'">&times;</span>
+            <p>{{ message }}</p>
+            <button onclick="document.getElementById('messageModal').style.display='none'">ОК</button>
+        </div>
+    </div>
+
+
+    <!-- Страница "category.html"-->
+
+    {% block modalProduct %}
+    <!-- Модальное окно Карточки товара -->
+    {% endblock modalProduct %}
+
+    {% block modalProductDescription %}
+    <!-- Модальное окно с полным описанием товара -->
+    {% endblock modalProductDescription %}
+
+    <!-- Страница "personalAccount.html"-->
+
+    {% block favoritesModal %}
+    <!--Модальное окно Избранных товаров-->
+    {% endblock favoritesModal %}
+
+    {% block checkoutModal %}
+    <!-- Модальное окно оформления заказа -->
+    {% endblock checkoutModal %}
+
+    {% block editPersonalDataModal %}
+    <!-- Модальное окно для редактирования данных пользователя -->
+    {% endblock editPersonalDataModal %}
+    
+    {% block editDeliveryProfileModal %}
+    <!-- Модальное окно для редактирования профиля доставки -->
+    {% endblock editDeliveryProfileModal %}
+
+    {% block callBackScripts %}
+    <!-- Скрипт для приложения callback -->
+    {% endblock callBackScripts %}
+
+    {% block deliveryScripts %}
+    <!-- Скрипт для приложения delivery -->
+    {% endblock deliveryScripts %}
+
+    {% block goodsScripts %}
+    <!-- Скрипт для приложения goods -->
+    {% endblock goodsScripts %}
+
+    {% block mainScripts %}
+    <!-- Скрипт для приложения main -->
+    {% endblock mainScripts %}
+
+    {% block ourPromotionsScripts %}
+    <!-- Скрипт для приложения ourPromotions -->
+    {% endblock ourPromotionsScripts %}
+
+    <script>
+        const loginUrl = "{% url 'users:login' %}";
+        const registrationUrl = "{% url 'users:registration' %}";
+    </script>
+    <script src="{% static "scripts/burgerNav.js" %}"></script>
+    <script src="{% static "scripts/modalManager.js" %}"></script>
+    <script src="{% static "scripts/personalAccount.js" %}"></script>
+
+    {% csrf_token %}
+  </body>
+
+</html>

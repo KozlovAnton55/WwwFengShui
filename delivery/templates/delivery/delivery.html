@@ -1,0 +1,214 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+<!-- Наименование страницы -->
+{% block title %}
+<title>{{ title }}</title>
+{% endblock title %}
+
+<!-- Ключ для Яндекс карты местонахождения магазина -->
+{% block mapKey %}
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=34a7bf49-c2f4-4825-a008-9d1eebcff990"
+    type="text/javascript"></script>
+{% endblock mapKey %}
+
+<!-- Навигационное меню -->
+{% block navMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li> 
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+</ul>
+{% endblock navMenu %}
+
+<!-- Мобильное меню -->
+{% block mobileNavMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+    <li>
+        <a href="{% url 'goods:categories' %}">Категории товаров</a>
+    </li>
+    <li>
+        <a href="{% url 'callBack:callBack' %}">Обратный звонок</a>
+    </li>
+    <li>
+        <a href="{% url 'main:privacyPolicy' %}">Политика конфиденциальности</a>
+    </li>
+    <li>
+        <a href="{% url 'main:qualityAssurance' %}">Гарантии качества</a>
+    </li>
+    <li>
+        <a href="{% url 'ourPromotions:ourPromotions' %}">Наши акции</a>
+    </li>
+</ul>
+{% endblock mobileNavMenu %}
+
+<!-- Секция с калькулятором стоимости доставки и Яндекс картой "Границы доставки""-->
+{% block deliveryPageSection %}
+<section id="deliveryPage">
+    <div class="deliveryWrapper">
+        <h2>Доставка мебели в Обнинске и Калужской области</h2>
+        <div class="deliveryContent">
+            <div class="deliveryDescription">
+                <p>
+                    Мы осуществляем доставку мебели по городу Обнинск и всей Калужской области. Чтобы узнать
+                    стоимость доставки, воспользуйтесь нашим удобным калькулятором ниже.
+                </p>
+                <p>
+                <h4>Как пользоваться калькулятором:</h4>
+                </p>
+                <ol>
+                    <li>
+                        Выберите ваш населенный пункт: укажите город в Калужской области или выберите "Обнинск",
+                        если вы находитесь в городе.
+                    </li>
+                    <li>
+                        Укажите этаж подъема: выберите этаж, на который необходимо доставить мебель (если
+                        требуется).
+                        Обратите внимание, что подъем на этаж может влиять на стоимость доставки.
+                    </li>
+                    <li>
+                        Выберите категорию мебели: укажите категорию мебели, которую вы заказываете (например,
+                        "Диваны", "Комоды", "Кухни", "Раковины", "Шкафы", "Кровати" или "Разное" в том случае
+                        когда доставляется более одной позиции мебели). Стоимость доставки может варьироваться в
+                        зависимости от габаритов и веса мебели.
+                    </li>
+                </ol>
+                <p>
+                <h4>Важно:</h4>
+                </p>
+                <ul>
+                    <li>
+                        Стоимость доставки, рассчитанная калькулятором, является предварительной. Окончательная
+                        стоимость может быть уточнена менеджером при подтверждении заказа.
+                    </li>
+                    <li>
+                        Мы осуществляем доставку до подъезда (без подъема на этаж) в города Калужской
+                        области. Подъем на этаж оплачивается отдельно.
+                    </li>
+                    <li>
+                        Подъем на этаж без лифта: стоимость подъема на этаж без лифта может быть выше, чем с
+                        лифтом.
+                    </li>
+                    <li>
+                        Доставка осуществляется в течение 1-3 дней после
+                        подтверждения заказа.
+                    </li>
+                    <li>
+                        Подробнее об условиях доставки вы можете узнать, связавшись с нашим менеджером по
+                        телефону указанному на главной странице нашего сайта или в секции "Контакты"
+                    </li>
+                </ul>
+            </div>
+            <div class="deliveryLocationWrapper">
+                <div id="deliveryMap"></div>
+            </div>
+        </div>
+
+        <div class="deliveryCalculator">
+            <h3>Калькулятор стоимости доставки</h3>
+            <form id="deliveryForm">
+                <div class="formRowCalculator">
+                    <div class="sityBlock">
+                        <label for="city">Укажите населенный пункт:</label>
+                        <input type="text" id="city" name="city" placeholder="Введите населенный пункт">
+                    </div>
+                </div>
+
+                <div class="formRowCalculator">
+                    <h4>Нужен ли подъем на этаж ?</h4>
+                    <div class="liftBlock">
+                        <div class="noFloorBlock">
+                            <label for="noFloor">Нет</label><br>
+                            <input type="radio" id="noFloor" name="floorType" value="noFloor" checked>
+                        </div>
+                        <div class="withFloorBlock">
+                            <label for="withFloor">Да</label><br>
+                            <input type="radio" id="withFloor" name="floorType" value="withFloor">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formRowCalculator">
+                    <h4>Укажите наличие лифта.</h4>
+                    <div class="groupRadio">
+                        <div class="hasLiftYesBlock">
+                            <label for="hasLiftYes">Да</label>
+                            <input type="radio" id="hasLiftYes" name="hasLift" value="yes" checked>
+                        </div>
+                        <div class="hasLiftNoBlock">
+                            <label for="hasLiftNo">Нет</label>
+                            <input type="radio" id="hasLiftNo" name="hasLift" value="no">
+                        </div>
+                    </div>
+                    <div class="numberFloorBlock">
+                        <label>Укажите этаж:</label>
+                        <input type="number" id="floor" name="floor" min="1" disabled placeholder="этаж:">
+                    </div>
+                </div>
+
+                <div class="formRowCalculator">
+                    <div class="categoryBlock">
+                        <label for="category">Выберите категорию мебели:</label><br>
+                        <select id="category" name="category">
+                            <optgroup label="Тяжелая мебель">
+                                <option value="sofas">Диваны</option>
+                                <option value="designer_furniture">Дизайнерская мебель</option>
+                                <option value="dressers">Комоды и тумбы</option>
+                                <option value="bathroom_furniture">Мебель для ванной</option>
+                                <option value="children_furniture">Мебель для детской</option>
+                                <option value="office_furniture">Мебель для офиса</option>
+                                <option value="bedroom_furniture">Мебель для спальни</option>
+                                <option value="living_room_furniture">Стенки для гостиной</option>
+                                <option value="tables">Столы</option>
+                                <option value="kitchen_furniture">Мебель для кухни</option>
+                                <option value="halls">Прихожие</option>
+                            </optgroup>
+                            <optgroup label="Легкая мебель">
+                                <option value="rugs">Коврики в прихожую</option>
+                                <option value="shelves">Стеллажи</option>
+                                <option value="chairs">Стулья</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="calculateButton">Рассчитать стоимость</button>
+            </form>
+        </div>
+        <!--Модальное окно сообщение со стоимостью доставки-->
+        <div id="deliveryModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="deliveryCostText"></p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock deliveryPageSection %}
+
+<!-- Скрипт для приложения delivery-->
+{% block deliveryScripts %}
+    <script src="{% static "scripts/delivery.js" %}"></script>
+    <script src="{% static "scripts/authentificatedForm.js" %}"></script>
+{% endblock deliveryScripts %}
+  

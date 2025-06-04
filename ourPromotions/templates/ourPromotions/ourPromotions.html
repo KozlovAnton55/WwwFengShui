@@ -1,0 +1,194 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+<!-- Наименование страницы -->
+{% block title %}
+<title>{{ title }}</title>
+{% endblock title %}
+
+<!-- Навигационное меню -->
+{% block navMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+</ul>
+{% endblock navMenu %}
+
+<!-- Мобильное меню -->
+{% block mobileNavMenu %}
+<ul>
+    <li>
+        <a href="{% url "main:index" %}#">Home</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#coments">Отзывы</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#about">О нас</a>
+    </li>
+    <li>
+        <a href="{% url "main:index" %}#contacts">Контакты</a>
+    </li>
+    <li>
+        <a href="{% url 'goods:categories' %}">Категории товаров</a>
+    </li>
+    <li>
+        <a href="{% url 'callBack:callBack' %}">Обратный звонок</a>
+    </li>
+    <li>
+        <a href="{% url 'main:privacyPolicy' %}">Политика конфиденциальности</a>
+    </li>
+    <li>
+        <a href="{% url 'main:qualityAssurance' %}">Гарантии качества</a>
+    </li>
+    <li>
+        <a href="{% url 'ourPromotions:ourPromotions' %}">Наши акции</a>
+    </li>
+</ul>
+{% endblock mobileNavMenu %}
+
+<!-- Секция с товарами которые распродаются со скидкой -->
+{% block ourPromotionsSection %}
+<section id="ourPromotions">
+    <div class="ourPromotionsWrapper">
+        <h2>Наши акции</h2>
+        <div class="promotionsDescription">
+            <p>
+                Добро пожаловать в раздел "Наши акции"! Здесь вы найдете лучшие предложения и скидки на мебель
+                от “Feng Shui Мебель”. Мы регулярно обновляем этот раздел, предлагая вам уникальные возможности
+                приобрести качественную мебель по выгодным ценам.
+            </p>
+            <p>
+                Почему товары попадают в этот раздел? Это может быть связано с разными причинами:
+            </p>
+            <ul>
+                <li>
+                    Распродажа складских остатков: Мы освобождаем место на складе для новых поступлений,
+                    предлагая
+                    вам отличную мебель по сниженной цене.
+                </li>
+                <li>
+                    Специальные предложения от производителей: Наши партнеры предоставляют нам эксклюзивные
+                    скидки,
+                    которыми мы делимся с вами.
+                </li>
+                <li>
+                    Товары с незначительными дефектами: Иногда у нас появляются товары с небольшими
+                    косметическими дефектами, которые не влияют на функциональность мебели. Мы предлагаем их со
+                    значительной скидкой.
+                </li>
+                <li>
+                    Сезонные акции: В определенное время года мы проводим специальные акции, предлагая скидки на
+                    определенные категории мебели.
+                </li>
+            </ul>
+            <p>
+                Не упустите свой шанс приобрести качественную мебель по выгодной цене! Количество товаров
+                ограничено, поэтому поторопитесь! Следите за обновлениями и подписывайтесь на нашу рассылку,
+                чтобы первыми узнавать о новых акциях.
+            </p>
+        </div>
+        <div class="promotionsCardsWrapper">
+
+            <!-- Карточки товаров здесь -->
+
+            {% for promotion in promotions %}
+            <div class="promotionsCard">
+                <h3>{{ promotion.product.name }}</h3> 
+                <div class="contentWrapper">
+                    <p class="textCard">
+                        {{ promotion.description }}  
+                    </p>
+                    <div class="priceWrapper">
+                        <div class="fullPrice">
+                            <h4 class="priceLabel">Цена без скидки:</h4>
+                            <span class="oldPrice">{{ promotion.product.price }} руб.</span>  <!-- Старая цена -->
+                        </div>
+                        <div class="discountedPrice">
+                            <h4 class="priceLabel">Новая цена:</h4>
+                            <span class="newPrice">{{ promotion.discounted_price }} руб.</span>  <!-- Новая цена -->
+                        </div>
+                    </div>
+                    <div class="imageCard">
+                        {% if promotion.image %}
+                            <img src="{{ promotion.image.url }}" alt="{{ promotion.name }}">
+                        {% else %}
+                            <img src="{% static "not Found image/maske_kein_foto_mb2.jpg" %}" alt="Изображение по умолчанию">
+                        {% endif %}
+                    </div>
+                    <div class="promotionsButton">
+                        <button class="addToCartProduct" data-product-id="{{ promotion.product.id }}">Добавить в корзину</button>
+                        <button class="favoriteButtonProduct" data-product-id="{{ promotion.product.id }}">Добавить в избранное</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endblock ourPromotionsSection %}
+
+<!-- Модальное окно авторизации -->
+{% block modalAuthorisation %}
+<div id="authorisationModal" class="modal">
+        <div class="authorisationModalContent">
+            <span class="close">&times;</span>
+            <h3>Авторизация</h3>
+            <form id="authorisationModalForm">
+                <label for="authName">Имя:</label>
+                <input type="text" id="authName" name="authName" required><br><br>
+
+                <label for="authPassword">Пароль:</label>
+                <input type="password" id="authPassword" name="authPassword" required><br><br>
+
+                <button type="submit">Войти</button>
+                <button type="reset">Отчистить</button>
+            </form>
+        </div>
+</div>
+{% endblock modalAuthorisation %}
+
+<!-- Модальное окно регистрации -->
+{% block modalRegistration %}
+<div id="registrationModal" class="modal">
+        <div class="registrationModalContent">
+            <span class="close">&times;</span>
+            <h3>Регистрация</h3>
+            <form id="registrationModalForm">
+                <label for="registerFirstName">Имя:</label>
+                <input type="text" id="registerFirstName" name="registerFirstName" required><br><br>
+
+                <label for="registerLastName">Фамилия:</label>
+                <input type="text" id="registerLastName" name="registerLastName" required><br><br>
+
+                <label for="registerPhone">Телефон:</label>
+                <input type="tel" id="registerPhone" name="registerPhone" required><br><br>
+
+                <label for="registerEmail">Email:</label>
+                <input type="email" id="registerEmail" name="registerEmail" required><br><br>
+
+                <label for="registerPassword">Пароль:</label>
+                <input type="password" id="registerPassword" name="registerPassword" required><br><br>
+
+                <button type="submit">Зарегистрироваться</button>
+                <button type="reset">Отчистить</button>
+            </form>
+        </div>
+</div>
+{% endblock modalRegistration %}
+
+<!-- Скрипт для приложения ourPromotions -->
+{% block ourPromotionsScripts %}
+    <script src="{% static "scripts/authentificatedForm.js" %}"></script>
+{% endblock ourPromotionsScripts %}
