@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Добавляем WhiteNoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,11 +110,12 @@ USE_TZ = True
 
 # Статические файлы
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Для продакшена
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
-# Дополнительные статические файлы (например, deps)
+# Дополнительные статические файлы 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static', 'deps'),
+    os.path.join(BASE_DIR, 'static'), 
+    os.path.join(BASE_DIR, 'static', 'deps'),  
 ]
 
 # Медиа файлы
