@@ -1,2 +1,2 @@
 #!/bin/bash
-gunicorn WwwFengShui.wsgi
+gunicorn WwwFengShui.wsgi:application
