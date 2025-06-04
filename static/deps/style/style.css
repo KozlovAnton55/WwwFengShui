@@ -3393,8 +3393,13 @@ form button:last-child {
         .userButton {
             position: absolute;
             bottom: -70px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 55%;
+            transform: translateX(-45%);
+            width: 80%;
+        }
+
+        .userButton a {
+            padding: 10px;
         }
 
         .basketWrapper {
@@ -3570,19 +3575,22 @@ form button:last-child {
 
         .footerWrapper {
             position: relative;
+            height: 200px;
         }
 
         .footerWrapper a:first-child {
             position: absolute;
-            left: 20px;
-            bottom: 30px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 12px;
         }
 
         .footerWrapper a:last-child {
             position: absolute;
-            right: 20px;
-            bottom: 30px;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 12px;
         }
 
@@ -3590,7 +3598,7 @@ form button:last-child {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            top: 50px;
+            top: 80px;
             text-align: center;
         }
 
@@ -4011,6 +4019,32 @@ form button:last-child {
         .theCostOfTheOrder {
             display: flex;
             flex-direction: row;
+        }
+
+        .modal-content-delivery-profile {
+            width: 85%;
+        }
+        
+        .modal-content-delivery-profile h3 {
+            margin-top: 0px;
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .modal-content-delivery-profile label {
+            margin-bottom: 0px;
+        }
+        
+        .modal-content-delivery-profile input[type=text],
+        .modal-content-delivery-profile input[type=number] {
+            margin-bottom: 0px;
+            width: 70%;
+            font-size: 17px;
+        }
+        
+        .modal-content-delivery-profile input[type=checkbox] {
+            margin-bottom: 0px;
+            margin-top: 5px;
         }
 
         /*Стили для секции "leaveAReview" страницы --Personal-Account--*/
