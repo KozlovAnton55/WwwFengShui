@@ -179,3 +179,6 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 if not SECRET_KEY:
     raise ImproperlyConfigured("SECRET_KEY не найден в переменных окружения!")
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
