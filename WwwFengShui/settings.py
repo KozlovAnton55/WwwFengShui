@@ -17,17 +17,14 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# Уровень отладки: по умолчанию False, можно управлять через переменные окружения
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&j84x)nd4*ct5)r(p(mvo^5^5um0geoyc*x+^y8m)$d#a(w&+i'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-# Для теста, в продакшене лучше указать конкретные домены
-ALLOWED_HOSTS = ['*']
+# В продакшене указывайте свои домены, например: ['yourdomain.com']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+if not ALLOWED_HOSTS or ALLOWED_HOSTS == ['']:
+    # Для локальной разработки или если переменная не задана
+    ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -80,8 +77,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'WwwFengShui.wsgi.application'
 
-# База данных
-# Для локальной разработки — sqlite, для Heroku — PostgreSQL
+# База данных: использует DATABASE_URL, установленную в Render
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
@@ -104,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
+# Международные настройки
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -112,9 +108,9 @@ USE_TZ = True
 
 # Статические файлы
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Для production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Для продакшена
 
-# Папка с дополнительными статическими файлами (например, deps)
+# Дополнительные статические файлы (например, deps)
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static', 'deps'),
 ]
@@ -123,7 +119,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# В режиме разработки можно оставить так
+# В режиме разработки — разрешить localhost
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
